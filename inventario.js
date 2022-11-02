@@ -46,47 +46,6 @@ let productos = [{
     precio: "700"
 }];
 
-
-
-const archivo = new blob[{
-    id: 0,
-    nombre: "Arroz",
-    cantidad: 2,
-    marca: "Diana",
-    precio: "2.700"
-},
-{
-    id: 1,
-    nombre: "Leche",
-    cantidad: 7,
-    marca: "San mateo",
-    precio: "2.500"
-},
-{
-    id: 2,
-    nombre: "Pan",
-    cantidad: 15,
-    marca: "Bimbo",
-    precio: "1.300"
-},
-{
-    id: 3,
-    nombre: "Galletas",
-    cantidad: 22,
-    marca: "Festival",
-    precio: "700"
-},{type:'text/plain'}];
-
-const guardarArchivoDeTexto = (contenido, nombre) => {
-    const a = document.createElement("a");
-    const archivo = new Blob([contenido], { type: 'text/plain' });
-    const url = URL.createObjectURL(archivo);
-    a.href = url;
-    a.download = nombre;
-    a.click();
-    URL.revokeObjectURL(url);
-}
-
 function inventory(){
     rl.question(` >>> Ingrese su usuario: <<<\n `, function(usuario){
         rl.question(` >>> Ingrese su contraseña para iniciar sesion: <<<\n`, function(contraseña){
@@ -94,17 +53,19 @@ function inventory(){
                 menuOp();
             }else if(usuario === "William Latorre" && contraseña !== "Wa12345" ){ 
                 console.log("¡¡ Erorr: La contraseña no coincide con el usuario ingresado !!")
-                console.log(" ")
-                rl.question("", function(ent){
-                    console.clear();
-                    menuOp()
-                })             
+                setTimeout(() => {
+                    inicio()           
+                }, "2000") 
             }else if(usuario !== "William Latorre" && contraseña === "Wa12345"){
                 console.log("Error: El usuario no coincide con ninguno registrado")
-                rl.close();
+                setTimeout(() => {
+                    inicio()           
+                }, "2000")             
             }else if(usuario !== "William Latorre" && contraseña !== "Wa12345"){
                 console.log("Error: El usuario y la contraseña con coincide con ningun perfil registrado")
-                rl.close();
+                setTimeout(() => {
+                    inicio()           
+                }, "2000")             
             }
         })
     })
@@ -142,7 +103,7 @@ function inventory(){
             console.log(`---> Ingresaste la opción: ${opt}`);
             console.log('                                            ');
             Menu(opt);
-
+            console.clear()
             // rl.close();
         });
     }
@@ -207,6 +168,7 @@ function inventory(){
 
         // Listar Producto ------------------------
         function listar(){
+            console.clear()
             let list = productos[1]
             fs.writeFile(`${file}`, `${output}`, (err)=>{
                 if (err) throw err;
@@ -314,3 +276,10 @@ function inventory(){
     }
 }
 
+function inicio(){
+    console.clear();
+    console.log("Presione enter para volver a iniciar sesion... ")
+    rl.question("", function(ent){
+        inventory()
+    })
+}
